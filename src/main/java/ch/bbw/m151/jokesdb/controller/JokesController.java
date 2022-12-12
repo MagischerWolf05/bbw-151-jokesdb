@@ -4,15 +4,16 @@ import java.util.List;
 
 import ch.bbw.m151.jokesdb.datamodel.JokesEntity;
 import ch.bbw.m151.jokesdb.repository.JokesRepository;
+import ch.bbw.m151.jokesdb.service.JokesService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class JokesController {
 
 	private final JokesRepository jokesRepository;
-
 	public JokesController(JokesRepository jokesRepository) {
 		this.jokesRepository = jokesRepository;
 	}
@@ -25,5 +26,11 @@ public class JokesController {
 	public List<JokesEntity> getJokes(Pageable pageable) {
 		return jokesRepository.findAll(pageable)
 				.getContent();
+	}
+	@PostMapping("/jokes")
+	public void AddJoke(){
+		JokesService jokesService = new JokesService(this.jokesRepository);
+		jokesService.addEntryFromApi();
+		return;
 	}
 }

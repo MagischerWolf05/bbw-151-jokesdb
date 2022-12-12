@@ -2,6 +2,7 @@ package ch.bbw.m151.jokesdb;
 
 import ch.bbw.m151.jokesdb.datamodel.JokesEntity;
 import ch.bbw.m151.jokesdb.repository.JokesRepository;
+import ch.bbw.m151.jokesdb.service.RemoteJokesService;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import static org.assertj.core.api.Assertions.*;
+
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -18,6 +22,8 @@ public class JokesDbApplicationTest implements WithAssertions {
 	@Autowired
 	JokesRepository jokesRepository;
 
+	@Autowired
+	RemoteJokesService remoteJokesService;
 	@Autowired
 	private WebTestClient webTestClient;
 
@@ -38,5 +44,12 @@ public class JokesDbApplicationTest implements WithAssertions {
 				.is2xxSuccessful()
 				.expectBodyList(JokesEntity.class)
 				.hasSize(pageSize);
+	}
+
+	@Test
+	void JokesGetLoadesd(){
+		System.out.println(remoteJokesService.Jotd());
+
+		assertThat(true).isTrue();
 	}
 }
